@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Instruments — Nanoscience Knowledge Portal</title>
+  <style>
+    /* ✅ RESET & BASE */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: #61e5ff;
+      background: linear-gradient(281deg, rgba(97, 229, 255, 1) 0%, rgba(2, 2, 61, 1) 50%, rgba(92, 228, 255, 1) 100%);
+    }
+
+    /* ✅ HEADER / NAVIGATION */
+    header {
+      background: #2c3e50;
+      padding: 1rem 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .site-title {
+      color: white;
+      font-size: 1.5rem;
+      font-weight: 600;
+      text-decoration: none;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+    }
+
+    nav a {
+      color: #ecf0f1;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.5rem 0.8rem;
+      border-radius: 4px;
+      transition: background 0.3s;
+    }
+
+    nav a:hover {
+      background: #34495e;
+    }
+
+    .hamburger {
+      display: none;
+    }
+
+    /* ✅ TABS FOR SUBSECTIONS */
+    .tabs {
+      display: flex;
+      margin: 2rem auto;
+      max-width: 800px;
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+      animation: slideDown 0.6s ease-out;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .tab {
+      flex: 1;
+      text-align: center;
+      padding: 1rem;
+      cursor: pointer;
+      background: #f1f8ff;
+      font-weight: 600;
+      color: #2980b9;
+      transition: all 0.3s;
+      position: relative;
+    }
+
+    .tab:hover {
+      background: #d4ebff;
+      transform: translateY(-2px);
+    }
+
+    .tab.active {
+      background: #3498db;
+      color: white;
+    }
+
+    .tab.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: #2980b9;
+    }
+
+    /* ✅ MAIN CONTENT STYLING */
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 20px 3rem;
+    }
+
+    h1 {
+      text-align: center;
+      color: #9dc2e2;
+      margin: 2rem 0 1rem;
+      font-size: 2.2rem;
+      animation: fadeInDown 0.8s ease-out;
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    section {
+      margin: 3rem 0;
+      background: rgba(46, 36, 87, 0.363);
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+      display: none;
+    }
+
+    section.active {
+      display: block;
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    h2 {
+      color: #39adfa;
+      border-bottom: 2px solid #3498db;
+      padding-bottom: 0.5rem;
+      margin-top: 0;
+    }
+
+    .section-text {
+      color: rgb(255, 255, 255);
+      line-height: 1.7;
+      font-size: 1.05rem;
+    }
+
+    .instrument-item, .technique-item {
+      margin: 2.5rem 0;
+      padding: 1.5rem;
+      background: #3d33913a;
+      border-radius: 8px;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      transition: transform 0.3s, box-shadow 0.3s;
+      animation: slideInUp 0.6s ease-out backwards;
+    }
+
+    .instrument-item:nth-child(2) { animation-delay: 0.1s; }
+    .instrument-item:nth-child(3) { animation-delay: 0.2s; }
+    .instrument-item:nth-child(4) { animation-delay: 0.3s; }
+    .instrument-item:nth-child(5) { animation-delay: 0.4s; }
+    .instrument-item:nth-child(6) { animation-delay: 0.5s; }
+
+    .technique-item:nth-child(2) { animation-delay: 0.1s; }
+    .technique-item:nth-child(3) { animation-delay: 0.2s; }
+    .technique-item:nth-child(4) { animation-delay: 0.3s; }
+    .technique-item:nth-child(5) { animation-delay: 0.4s; }
+    .technique-item:nth-child(6) { animation-delay: 0.5s; }
+
+    @keyframes slideInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .instrument-item:hover, .technique-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    }
+
+    .instrument-item img, .technique-item img {
+      max-width: 50%;
+      height: auto;
+      border-radius: 6px;
+      margin: 1rem 0;
+      box-shadow: 2px 3px 10px rgba(0,0,0,0.7);
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+      display: block;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .instrument-item img:hover, .technique-item img:hover {
+      transform: scale(1.05) translateY(-5px);
+      box-shadow: 5px 8px 20px rgba(0,0,0,0.8);
+    }
+
+    .instrument-item h3, .technique-item h3 {
+      color: #9ccdff;
+      margin: 0 0 0.5rem;
+    }
+
+    .use-case, .example-app {
+      background: rgba(50, 39, 114, 0.2);
+      color: #9bfdc1;
+      padding: 1rem;
+      border-radius: 6px;
+      margin: 1rem 0;
+      border-left: 3px solid #3498db;
+      transition: background 0.3s;
+    }
+
+    .use-case:hover, .example-app:hover {
+      background: rgba(50, 39, 114, 0.35);
+    }
+
+    .use-case strong, .example-app strong {
+      color: #5dade2;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .related-links {
+      margin-top: 1.5rem;
+    }
+
+    .related-links a {
+      display: inline-block;
+      margin-right: 15px;
+      margin-top: 0.5rem;
+      color: #3498db;
+      text-decoration: underline;
+      font-weight: 500;
+      transition: color 0.2s, transform 0.2s;
+    }
+
+    .related-links a:hover {
+      color: #2980b9;
+      transform: translateX(3px);
+    }
+
+    /* Lightbox */
+    .lightbox {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      animation: fadeInQuick 0.3s ease;
+    }
+
+    .lightbox.active {
+      display: flex;
+    }
+
+    @keyframes fadeInQuick {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .lightbox img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 8px;
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+      animation: zoomIn 0.3s ease;
+    }
+
+    @keyframes zoomIn {
+      from {
+        transform: scale(0.8);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      color: white;
+      font-size: 40px;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 1001;
+      transition: color 0.2s;
+    }
+
+    .lightbox-close:hover {
+      color: #3498db;
+    }
+
+    /* Back to top button */
+    .back-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #3498db;
+      color: white;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+      transition: all 0.3s;
+      z-index: 99;
+      font-size: 1.5rem;
+    }
+
+    .back-to-top.active {
+      display: flex;
+    }
+
+    .back-to-top:hover {
+      background: #2980b9;
+      transform: translateY(-5px);
+    }
+
+    /* ✅ FOOTER */
+    footer {
+      background: linear-gradient(136deg,rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 38%, rgba(0, 212, 255, 1) 100%);
+      box-shadow: 5px -10px 10px rgba(0, 0, 0, 0.5);
+      color: white;
+      text-align: center;
+      padding: 0.1rem 5%;
+      margin-top: 3rem;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    footer p {
+      margin: 0.2rem 0;
+    }
+
+    .social-links a {
+      color: white;
+      margin: 0 4px;
+      text-decoration: none;
+      transition: transform 0.2s, color 0.2s;
+      display: inline-block;
+      word-break: keep-all;
+    }
+
+    .social-links a:hover {
+      transform: scale(1.2);
+      color: #3498db;
+    }
+
+    /* 🔧 MOBILE-SPECIFIC STYLES - COMPLETELY DIFFERENT LAYOUT */
+    @media (max-width: 768px) {
+      
+      /* 🔧 MOBILE: Compact Header */
+      header {
+        padding: 0.8rem 3%;
+      }
+
+      .site-title {
+        font-size: 0.9rem;
+        max-width: 60%;
+      }
+
+      /* 🔧 MOBILE: Hamburger Button */
+      .hamburger {
+        display: flex;
+        flex-direction: column;
+        cursor: pointer;
+        gap: 4px;
+        background: none;
+        border: none;
+        padding: 5px;
+        z-index: 101;
+      }
+
+      .hamburger span {
+        width: 25px;
+        height: 3px;
+        background: white;
+        border-radius: 3px;
+        transition: all 0.3s ease;
+      }
+
+      .hamburger.active span:nth-child(1) {
+        transform: rotate(45deg) translate(7px, 7px);
+      }
+
+      .hamburger.active span:nth-child(2) {
+        opacity: 0;
+      }
+
+      .hamburger.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(6px, -6px);
+      }
+
+      /* 🔧 MOBILE: Bottom Navigation Bar */
+      nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: #2c3e50;
+        transform: translateY(100%);
+        transition: transform 0.3s ease;
+        box-shadow: 0 -3px 15px rgba(0,0,0,0.4);
+        padding: 0;
+        z-index: 99;
+      }
+
+      nav.active {
+        transform: translateY(0);
+      }
+
+      nav ul {
+        flex-direction: row;
+        justify-content: space-around;
+        gap: 0;
+        padding: 0.5rem 0;
+      }
+
+      nav ul li {
+        flex: 1;
+        text-align: center;
+      }
+
+      nav a {
+        display: block;
+        padding: 0.8rem 0.3rem;
+        font-size: 0.75rem;
+        border-radius: 0;
+      }
+
+      /* 🔧 MOBILE: Compact Tabs */
+      .tabs {
+        margin: 1rem 3%;
+        max-width: 100%;
+        flex-direction: row; /* Keep horizontal on mobile */
+      }
+
+      .tab {
+        padding: 0.8rem 0.5rem;
+        font-size: 0.85rem;
+      }
+
+      .tab:hover {
+        transform: none; /* Disable lift on mobile */
+      }
+
+      /* 🔧 MOBILE: Container */
+      .container {
+        padding: 0 3% 3rem;
+      }
+
+      /* 🔧 MOBILE: Headings */
+      h1 {
+        font-size: 1.4rem;
+        margin: 1rem 0 0.5rem;
+      }
+
+      h2 {
+        font-size: 1.2rem;
+      }
+
+      /* 🔧 MOBILE: Sections */
+      section {
+        padding: 1.2rem;
+        margin: 1.5rem 0;
+      }
+
+      .section-text {
+        font-size: 0.85rem;
+        line-height: 1.5;
+      }
+
+      /* 🔧 MOBILE: Instrument/Technique Items */
+      .instrument-item,
+      .technique-item {
+        padding: 1rem;
+        margin: 1.5rem 0;
+      }
+
+      .instrument-item:hover,
+      .technique-item:hover {
+        transform: none; /* Disable lift on mobile */
+      }
+
+      .instrument-item h3,
+      .technique-item h3 {
+        font-size: 1rem;
+      }
+
+      /* 🔧 MOBILE: Full-width images */
+      .instrument-item img,
+      .technique-item img {
+        max-width: 100%;
+        margin: 0.8rem 0;
+      }
+
+      /* 🔧 MOBILE: Compact use-case boxes */
+      .use-case,
+      .example-app {
+        padding: 0.8rem;
+        margin: 0.8rem 0;
+        font-size: 0.85rem;
+      }
+
+      .use-case strong,
+      .example-app strong {
+        font-size: 0.9rem;
+      }
+
+      /* 🔧 MOBILE: Related links - prevent overflow */
+      .related-links {
+        margin-top: 1rem;
+      }
+
+      .related-links a {
+        font-size: 0.8rem;
+        margin-right: 10px;
+        margin-bottom: 0.5rem;
+        /* 🔧 FIX: Prevent link overflow */
+        word-break: break-word;
+        display: inline-block;
+      }
+
+      /* 🔧 MOBILE: Lightbox adjustments */
+      .lightbox img {
+        max-width: 95%;
+        max-height: 85%;
+      }
+
+      .lightbox-close {
+        top: 10px;
+        right: 15px;
+        font-size: 35px;
+      }
+
+      /* 🔧 MOBILE: Back to top button */
+      .back-to-top {
+        width: 45px;
+        height: 45px;
+        bottom: 70px; /* Above bottom nav */
+        right: 15px;
+        font-size: 1.3rem;
+      }
+
+      /* 🔧 MOBILE: Footer */
+      footer {
+        padding: 1rem 3%;
+        font-size: 0.85rem;
+        margin-bottom: 0;
+        word-break: break-all;
+      }
+
+      footer p {
+        line-height: 1.4;
+      }
+
+      .social-links a {
+        font-size: 1rem;
+        margin: 0.3rem 3px;
+      }
+    }
+
+    /* 🔧 TABLET: Optimize layout */
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .instrument-item img,
+      .technique-item img {
+        max-width: 70%;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- ✅ HEADER / NAV -->
+  <header>
+    <a href="index.html" class="site-title">Nanoscience Portal</a>
+    
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav id="nav">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="overview.html">Overview</a></li>
+        <li><a href="updates.html">Updates</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="container">
+
+    <h1>🔬 Instruments & Characterisation</h1>
+
+    <!-- ✅ TABS -->
+    <div class="tabs" role="tablist" aria-label="Instrument categories">
+      <div class="tab active" 
+           data-target="instruments-section" 
+           role="tab" 
+           aria-selected="true" 
+           aria-controls="instruments-section"
+           tabindex="0">
+        Instruments
+      </div>
+      <div class="tab" 
+           data-target="techniques-section" 
+           role="tab" 
+           aria-selected="false" 
+           aria-controls="techniques-section"
+           tabindex="-1">
+        Techniques
+      </div>
+    </div>
+
+    <!-- ///////////////////////////////////////////////// -->
+    <!-- 🧪 SECTION: INSTRUMENTS -->
+    <!-- ///////////////////////////////////////////////// -->
+    <section id="instruments-section" class="active" role="tabpanel">
+
+      <h2>Instruments in Nanotechnology</h2>
+      <p class="section-text">Tools used to visualize, manipulate, and fabricate at the nanoscale.</p>
+
+      <!-- ⚠️ EDIT ZONE: Add/remove instrument items below -->
+
+      <div class="instrument-item">
+        <img 
+          src="images/instruments/sem-machine.jpg" 
+          alt="Professional scanning electron microscope in laboratory"
+          loading="lazy"
+          data-lightbox="true">
+        <h3>SEM — Scanning Electron Microscope</h3>
+        <p class="section-text">Uses focused electron beam to scan surface topography with nanometer resolution.</p>
+
+        <div class="use-case">
+          <strong>What it does:</strong>
+          Creates high-res 3D-like images of surfaces. Ideal for nanoparticles, coatings, biological samples.
+        </div>
+
+        <div class="example-app">
+          <strong>Typical Use:</strong>
+          Imaging carbon nanotube forests, fracture surfaces, bacterial biofilms.
+        </div>
+
+        <div class="related-links">
+          <a href="gallery.html#img-sem-nanowires">Gallery Image →</a>
+          <a href="#" rel="noopener noreferrer">Sample Prep Guide →</a>
+        </div>
+      </div>
+
+      <div class="instrument-item">
+        <img 
+          src="images/instruments/tem-machine.jpg" 
+          alt="Transmission electron microscope setup with high-voltage column"
+          loading="lazy"
+          data-lightbox="true">
+        <h3>TEM — Transmission Electron Microscope</h3>
+        <p class="section-text">Transmits electrons through ultra-thin samples to reveal internal atomic structure.</p>
+
+        <div class="use-case">
+          <strong>What it does:</strong>
+          Reveals crystal lattice, defects, nanoparticle cores — down to atomic scale.
+        </div>
+
+        <div class="example-app">
+          <strong>Typical Use:</strong>
+          Studying quantum dots, catalyst nanoparticles, virus structures.
+        </div>
+
+        <div class="related-links">
+          <a href="gallery.html#img-tem-gold-nanoparticles">Gallery Image →</a>
+          <a href="#" rel="noopener noreferrer">Diffraction Patterns →</a>
+        </div>
+      </div>
+
+      <div class="instrument-item">
+        <img 
+          src="images/instruments/afm-setup.jpg" 
+          alt="Atomic force microscope showing cantilever probe and scanning stage"
+          loading="lazy"
+          data-lightbox="true">
+        <h3>AFM — Atomic Force Microscope</h3>
+        <p class="section-text">Measures surface forces using a nanoscale tip — works in air, liquid, vacuum.</p>
+
+        <div class="use-case">
+          <strong>What it does:</strong>
+          Maps topography, adhesion, stiffness, magnetic/electrical properties at atomic resolution.
+        </div>
+
+        <div class="example-app">
+          <strong>Typical Use:</strong>
+          DNA/protein imaging, polymer blends, graphene layer counting, live cell mechanics.
+        </div>
+
+        <div class="related-links">
+          <a href="gallery.html#video-afm-lab-demo">Gallery Video →</a>
+          <a href="overview.html#nanomaterials-examples">Related Material →</a>
+        </div>
+      </div>
+
+      <div class="instrument-item">
+        <img 
+          src="images/instruments/stm-diagram.jpg" 
+          alt="Schematic diagram of scanning tunneling microscope"
+          loading="lazy"
+          data-lightbox="true">
+        <h3>STM — Scanning Tunneling Microscope</h3>
+        <p class="section-text">Uses quantum tunneling current to map electronic density of states at atomic scale.</p>
+
+        <div class="use-case">
+          <strong>What it does:</strong>
+          Visualizes individual atoms and electron clouds. Requires conductive samples.
+        </div>
+
+        <div class="example-app">
+          <strong>Typical Use:</strong>
+          Imaging silicon reconstructions, molecular orbitals, quantum corrals.
+        </div>
+
+        <div class="related-links">
+          <a href="#" rel="noopener noreferrer">Quantum Corral Image →</a>
+          <a href="overview.html#nanoelectronics-examples">Related Tech →</a>
+        </div>
+      </div>
+
+      <div class="instrument-item">
+        <img 
+          src="images/instruments/fib-lithography.jpg" 
+          alt="Focused ion beam machine showing dual-beam system"
+          loading="lazy"
+          data-lightbox="true">
+        <h3>FIB / Lithography Tools</h3>
+        <p class="section-text">Uses ion beams to mill, deposit, or pattern nanostructures with precision.</p>
+
+        <div class="use-case">
+          <strong>What it does:</strong>
+          Nano-fabrication, TEM sample prep, circuit edit, maskless lithography.
+        </div>
+
+        <div class="example-app">
+          <strong>Typical Use:</strong>
+          Creating nanopores, modifying chips, prototyping nanodevices.
+        </div>
+
+        <div class="related-links">
+          <a href="#" rel="noopener noreferrer">FIB Process Video →</a>
+          <a href="overview.html#nanoelectronics-examples">Related Applications →</a>
+        </div>
+      </div>
+
+      <!-- >>> END OF EDIT ZONE FOR INSTRUMENTS <<< -->
+
+    </section>
+
+    <!-- ///////////////////////////////////////////////// -->
+    <!-- 📊 SECTION: CHARACTERISATION TECHNIQUES -->
+    <!-- ///////////////////////////////////////////////// -->
+    <section id="techniques-section" role="tabpanel">
+
+      <h2>Characterisation Techniques</h2>
+      <p class="section-text">Methods to analyze composition, structure, size, and optical/mechanical properties.</p>
+
+      <!-- ⚠️ EDIT ZONE: Add/remove technique items below -->
+
+      <div class="technique-item">
+        <img 
+          src="images/instruments/xrd-setup.jpg" 
+          alt="X-ray diffractometer in laboratory"
+          loading="lazy"
+          data-lightbox="true">
+        <h3>XRD — X-Ray Diffraction</h3>
+        <p class="section-text">Measures crystal structure, phase identification, and lattice parameters.</p>
+
+        <div class="use-case">
+          <strong>Tutorial:</strong>
+          Shine X-rays on crystalline sample → measure diffraction angles → calculate d-spacings → match to database.
+        </div>
+
+        <div class="example-app">
+          <strong>Example:</strong>
+          Confirming formation of anatase vs. rutile TiO₂ nanoparticles after synthesis.
+        </div>
+
+        <div class="related-links">
+          <a href="#" rel="noopener noreferrer">JCPDS Database →</a>
+          <a href="overview.html#nanomaterials-examples">Related Materials →</a>
+        </div>
+      </div>
+
+      <div class="technique-item">
+        <img 
+          src="images/instruments/dls-machine.jpg" 
+          alt="Dynamic light scattering instrument"
+          loading="lazy"
+          data-lightbox="true">
+        <h3>DLS — Dynamic Light Scattering</h3>
+        <p class="section-text">Measures nanoparticle size distribution in solution via Brownian motion.</p>
+
+        <div class="use-case">
+          <strong>Tutorial:</strong>
+          Laser light scatters off particles → fluctuations in intensity correlate to diffusion speed → calculate hydrodynamic diameter.
+        </div>
+
+        <div class="example-app">
+          <strong>Example:</strong>
+          Checking aggregation state of drug-loaded liposomes in buffer.
+        </div>
+
+        <div class="related-links">
+          <a href="#" rel="noopener noreferrer">Size Distribution Plot →</a>
+          <a href="overview.html#nanomedicine-examples">Related Applications →</a>
+        </div>
+      </div>
+
+      <div class="technique-item">
+        <img 
+          src="images/instruments/uv-vis-spectrometer.jpg" 
+          alt="UV-Vis spectrophotometer"
+          loading="lazy"
+          data-lightbox="true">
+        <h3>UV-Vis Spectroscopy</h3>
+        <p class="section-text">Measures optical absorption to determine bandgap, concentration, plasmon peaks.</p>
+
+        <div class="use-case">
+          <strong>Tutorial:</strong>
+          Shine UV-Vis light → measure absorbance vs. wavelength → identify peaks (e.g., Au NP plasmon at ~520 nm).
+        </div>
+
+        <div class="example-app">
+          <strong>Example:</strong>
+          Tracking growth of silver nanoparticles by peak shift from 400 → 450 nm.
+        </div>
+
+        <div class="related-links">
+          <a href="gallery.html#sim-graphene-conductivity">Related Simulation →</a>
+          <a href="overview.html#nanomaterials-examples">Related Materials →</a>
+        </div>
+      </div>
+
+      <div class="technique-item">
+        <img 
+          src="images/instruments/raman-setup.jpg" 
+          alt="Raman spectroscopy system"
+          loading="lazy"
+          data-lightbox="true">
+        <h3>Raman Spectroscopy</h3>
+        <p class="section-text">Probes molecular vibrations to identify chemical bonds and crystal symmetry.</p>
+
+        <div class="use-case">
+          <strong>Tutorial:</strong>
+          Shine laser → collect inelastically scattered photons → plot intensity vs. Raman shift (cm⁻¹) → match fingerprint peaks.
+        </div>
+
+        <div class="example-app">
+          <strong>Example:</strong>
+          Distinguishing single-layer vs. multi-layer graphene by 2D/G peak ratio.
+        </div>
+
+        <div class="related-links">
+          <a href="gallery.html#sim-graphene-conductivity">Graphene Analysis →</a>
+          <a href="overview.html#nanomaterials-examples">Related Material →</a>
+        </div>
+      </div>
+
+      <div class="technique-item">
+        <img 
+          src="images/instruments/ftir-machine.jpg" 
+          alt="FTIR spectrometer"
+          loading="lazy"
+          data-lightbox="true">
+        <h3>FTIR — Fourier Transform Infrared Spectroscopy</h3>
+        <p class="section-text">Identifies functional groups and chemical bonds via infrared absorption.</p>
+
+        <div class="use-case">
+          <strong>Tutorial:</strong>
+          IR light passes through sample → detector measures absorption → Fourier transform converts to spectrum → match peaks to bond types.
+        </div>
+
+        <div class="example-app">
+          <strong>Example:</strong>
+          Confirming PEG coating on iron oxide nanoparticles by C-H and C-O stretch peaks.
+        </div>
+
+        <div class="related-links">
+          <a href="#" rel="noopener noreferrer">Peak Assignment Chart →</a>
+          <a href="overview.html#nanomedicine-examples">Related Application →</a>
+        </div>
+      </div>
+
+      <!-- >>> END OF EDIT ZONE FOR TECHNIQUES <<< -->
+
+    </section>
+
+  </div>
+
+  <!-- Lightbox Modal -->
+  <div class="lightbox" id="lightbox">
+    <span class="lightbox-close" id="lightbox-close">&times;</span>
+    <img src="" alt="Full size image" id="lightbox-img">
+  </div>
+
+  <!-- Back to Top Button -->
+  <div class="back-to-top" id="back-to-top">
+    ↑
+  </div>
+
+  <!-- ✅ FOOTER -->
+  <footer>
+    <p>© 2025 Nanoscience Knowledge Portal</p>
+    <div class="social-links">
+      <a href="https://www.instagram.com/madyfication/" 
+         target="_blank" 
+         rel="noopener noreferrer" 
+         title="Instagram">📷 Instagram</a>
+    </div>
+    <p>Zooming into tomorrow, atom by atom.</p>
+  </footer>
+
+  <script>
+    // ========================================
+    // 🔧 HAMBURGER MENU
+    // ========================================
+    const hamburger = document.getElementById('hamburger');
+    const nav = document.getElementById('nav');
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      nav.classList.toggle('active');
+    });
+
+    document.querySelectorAll('nav a').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('active');
+        nav.classList.remove('active');
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!nav.contains(e.target) && !hamburger.contains(e.target)) {
+        hamburger.classList.remove('active');
+        nav.classList.remove('active');
+      }
+    });
+
+
+    // ========================================
+    // 🔧 TAB SWITCHING FUNCTIONALITY
+    // ========================================
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(t => {
+          t.classList.remove('active');
+          t.setAttribute('aria-selected', 'false');
+          t.setAttribute('tabindex', '-1');
+        });
+        document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+
+        tab.classList.add('active');
+        tab.setAttribute('aria-selected', 'true');
+        tab.setAttribute('tabindex', '0');
+
+        const targetId = tab.getAttribute('data-target');
+        document.getElementById(targetId).classList.add('active');
+
+        document.getElementById(targetId).scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      });
+
+      tab.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          tab.click();
+        }
+      });
+    });
+
+
+    // ========================================
+    // 🔧 LIGHTBOX IMAGE VIEWER
+    // ========================================
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxClose = document.getElementById('lightbox-close');
+
+    document.querySelectorAll('.instrument-item img, .technique-item img').forEach(img => {
+      img.addEventListener('click', function() {
+        lightbox.classList.add('active');
+        lightboxImg.src = this.src;
+        lightboxImg.alt = this.alt;
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    lightboxClose.addEventListener('click', closeLightbox);
+
+    lightbox.addEventListener('click', function(e) {
+      if (e.target === lightbox) {
+        closeLightbox();
+      }
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+        closeLightbox();
+      }
+    });
+
+    function closeLightbox() {
+      lightbox.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+
+
+    // ========================================
+    // 🔧 BACK TO TOP BUTTON
+    // ========================================
+    const backToTop = document.getElementById('back-to-top');
+
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 300) {
+        backToTop.classList.add('active');
+      } else {
+        backToTop.classList.remove('active');
+      }
+    });
+
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+
+
+    // ========================================
+    // 🔧 FOCUS TRAP
+    // ========================================
+    const focusableElements = nav.querySelectorAll('a');
+    const firstFocusable = focusableElements[0];
+    const lastFocusable = focusableElements[focusableElements.length - 1];
+
+    document.addEventListener('keydown', function(e) {
+      if (!nav.classList.contains('active')) return;
+
+      if (e.key === 'Tab') {
+        if (e.shiftKey) {
+          if (document.activeElement === firstFocusable) {
+            e.preventDefault();
+            lastFocusable.focus();
+          }
+        } else {
+          if (document.activeElement === lastFocusable) {
+            e.preventDefault();
+            firstFocusable.focus();
+          }
+        }
+      }
+    });
+
+
+    // ========================================
+    // 🔧 SCROLL ANIMATION TRIGGER
+    // ========================================
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver(function(entries) {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.instrument-item, .technique-item').forEach(item => {
+      observer.observe(item);
+    });
+
+  </script>
+
+</body>
+</html>

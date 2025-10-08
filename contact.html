@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact — Nanoscience Knowledge Portal</title>
+  <style>
+    /* ✅ RESET & BASE */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: #61e5ff;
+      background: linear-gradient(299deg, rgba(97, 229, 255, 1) 0%, rgba(2, 2, 61, 1) 50%, rgba(92, 228, 255, 1) 100%);
+    }
+
+    /* ✅ HEADER / NAVIGATION */
+    header {
+      background: #2c3e50;
+      padding: 1rem 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .site-title {
+      color: white;
+      font-size: 1.5rem;
+      font-weight: 600;
+      text-decoration: none;
+      position: relative;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+    }
+
+    nav a {
+      color: #ecf0f1;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.5rem 0.8rem;
+      border-radius: 4px;
+      transition: background 0.3s;
+    }
+
+    nav a:hover {
+      background: #34495e;
+    }
+
+    .hamburger {
+      display: none;
+    }
+
+    /* ✅ MAIN CONTENT STYLING */
+    .container {
+      max-width: 800px;
+      margin: 4rem auto;
+      padding: 0 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #5e84aa;
+      margin: 2rem 0 2.5rem;
+      font-size: 2.2rem;
+      animation: fadeInDown 0.8s ease-out;
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* "With Love by Moomin" hover effect */
+    .site-title:hover::after {
+      content: "With ❤️ by Moomin";
+      position: absolute;
+      top: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.9rem;
+      font-family: 'Lucida Handwriting', cursive;
+      color: #ff6b9d;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 5px 12px;
+      border-radius: 20px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+      animation: popIn 0.3s ease-out;
+      z-index: 10;
+      white-space: nowrap;
+    }
+
+    @keyframes popIn {
+      0% { 
+        transform: translateX(-50%) scale(0); 
+        opacity: 0; 
+      }
+      70% { 
+        transform: translateX(-50%) scale(1.1); 
+        opacity: 0.9; 
+      }
+      100% { 
+        transform: translateX(-50%) scale(1); 
+        opacity: 1; 
+      }
+    }
+
+    .contact-section {
+      background: #7985d336;
+      padding: 3rem 2rem;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 5px 7px 10px rgba(0,0,0,0.5);
+      animation: fadeInUp 0.6s ease-out 0.2s backwards;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .contact-method {
+      margin: 1.5rem 0;
+      padding: 1rem;
+      background: #ccccce28;
+      border-radius: 10px;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      box-shadow: 3px 5px 10px rgba(0,0,0,0.25);
+      transition: transform 0.3s, box-shadow 0.3s;
+      animation: slideInRight 0.6s ease-out backwards;
+      position: relative;
+    }
+
+    .contact-method:nth-child(1) { animation-delay: 0.1s; }
+    .contact-method:nth-child(2) { animation-delay: 0.2s; }
+    .contact-method:nth-child(3) { animation-delay: 0.3s; }
+
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .contact-method:hover {
+      transform: translateY(-9px);
+      box-shadow: 5px 10px 10px rgba(0,0,0,0.5);
+    }
+
+    .contact-method h2 {
+      color: #fdfdfd;
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+    }
+
+    .contact-method p {
+      font-size: 1.1rem;
+      margin: 0.5rem 0;
+    }
+
+    .contact-description {
+      color: #333;
+      font-weight: 500;
+      font-size: 1rem;
+    }
+
+    .contact-method a {
+      color: #52b7fa;
+      text-decoration: underline;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: color 0.2s, transform 0.2s;
+      display: inline-block;
+      /* 🔧 CHANGE: Add word-break for long links */
+      word-break: break-all;
+    }
+
+    .contact-method a:hover {
+      color: #54fd06b9;
+      transform: scale(1.05);
+    }
+
+    .icon {
+      font-size: 2.5rem;
+      display: block;
+      margin-bottom: 0.5rem;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    .contact-method:hover .icon {
+      animation: none;
+      transform: scale(1.2);
+      transition: transform 0.3s;
+    }
+
+    /* Copy button */
+    .copy-btn {
+      background: #3498db;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      margin-left: 10px;
+      transition: all 0.3s;
+      font-weight: 600;
+    }
+
+    .copy-btn:hover {
+      background: #2980b9;
+      transform: translateY(-2px);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+    }
+
+    .copy-btn:active {
+      transform: translateY(0);
+    }
+
+    /* Success message when copying */
+    .copy-success {
+      display: none;
+      position: absolute;
+      top: -40px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #27ae60;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+      animation: slideDown 0.3s ease-out;
+      white-space: nowrap;
+    }
+
+    .copy-success.show {
+      display: block;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        top: -50px;
+      }
+      to {
+        opacity: 1;
+        top: -40px;
+      }
+    }
+
+    /* Back to top button */
+    .back-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #3498db;
+      color: white;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+      transition: all 0.3s;
+      z-index: 99;
+      font-size: 1.5rem;
+    }
+
+    .back-to-top.active {
+      display: flex;
+    }
+
+    .back-to-top:hover {
+      background: #2980b9;
+      transform: translateY(-5px);
+    }
+
+    /* ✅ FOOTER */
+    footer {
+      background: linear-gradient(136deg,rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 38%, rgba(0, 212, 255, 1) 100%);
+      box-shadow: 5px -10px 10px rgba(0, 0, 0, 0.5);
+      color: white;
+      text-align: center;
+      padding: 0.1rem 5%;
+      margin-top: 4rem;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    footer p {
+      margin: 0.2rem 0;
+    }
+
+    .social-links a {
+      color: white;
+      margin: 0 4px;
+      text-decoration: none;
+      transition: transform 0.2s, color 0.2s;
+      display: inline-block;
+      word-break: keep-all;
+    }
+
+    .social-links a:hover {
+      transform: scale(1.2);
+      color: #3498db;
+    }
+
+    /* 🔧 MOBILE-SPECIFIC STYLES - COMPLETELY DIFFERENT LAYOUT */
+    @media (max-width: 768px) {
+      
+      /* 🔧 MOBILE: Compact Header */
+      header {
+        padding: 0.8rem 3%;
+      }
+
+      .site-title {
+        font-size: 0.9rem;
+        max-width: 60%;
+      }
+
+      /* 🔧 MOBILE: Hamburger Button */
+      .hamburger {
+        display: flex;
+        flex-direction: column;
+        cursor: pointer;
+        gap: 4px;
+        background: none;
+        border: none;
+        padding: 5px;
+        z-index: 101;
+      }
+
+      .hamburger span {
+        width: 25px;
+        height: 3px;
+        background: white;
+        border-radius: 3px;
+        transition: all 0.3s ease;
+      }
+
+      .hamburger.active span:nth-child(1) {
+        transform: rotate(45deg) translate(7px, 7px);
+      }
+
+      .hamburger.active span:nth-child(2) {
+        opacity: 0;
+      }
+
+      .hamburger.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(6px, -6px);
+      }
+
+      /* 🔧 MOBILE: Bottom Navigation Bar */
+      nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: #2c3e50;
+        transform: translateY(100%);
+        transition: transform 0.3s ease;
+        box-shadow: 0 -3px 15px rgba(0,0,0,0.4);
+        padding: 0;
+        z-index: 99;
+      }
+
+      nav.active {
+        transform: translateY(0);
+      }
+
+      nav ul {
+        flex-direction: row;
+        justify-content: space-around;
+        gap: 0;
+        padding: 0.5rem 0;
+      }
+
+      nav ul li {
+        flex: 1;
+        text-align: center;
+      }
+
+      nav a {
+        display: block;
+        padding: 0.8rem 0.3rem;
+        font-size: 0.75rem;
+        border-radius: 0;
+      }
+
+      /* 🔧 MOBILE: Container */
+      .container {
+        margin: 2rem auto 1rem;
+        padding: 0 3%;
+      }
+
+      /* 🔧 MOBILE: Headings */
+      h1 {
+        font-size: 1.4rem;
+        margin: 1rem 0 1.5rem;
+      }
+
+      /* 🔧 MOBILE: Contact Section */
+      .contact-section {
+        padding: 1.5rem 1rem;
+      }
+
+      /* 🔧 MOBILE: Contact Methods - Compact */
+      .contact-method {
+        margin: 1.2rem 0;
+        padding: 1rem 0.8rem;
+      }
+
+      /* 🔧 MOBILE: Disable hover lift */
+      .contact-method:hover {
+        transform: translateY(-3px); /* Less lift on mobile */
+      }
+
+      .contact-method h2 {
+        font-size: 1.2rem;
+        margin-bottom: 0.8rem;
+      }
+
+      /* 🔧 MOBILE: Compact icon */
+      .icon {
+        font-size: 2rem;
+        margin-bottom: 0.4rem;
+      }
+
+      /* 🔧 MOBILE: Compact description */
+      .contact-description {
+        font-size: 0.85rem;
+        line-height: 1.5;
+      }
+
+      /* 🔧 MOBILE: Contact info - CRITICAL FIX */
+      .contact-method p {
+        font-size: 0.95rem;
+        margin: 0.4rem 0;
+      }
+
+      .contact-method a {
+        font-size: 0.95rem;
+        /* 🔧 FIX: Force word break for long email/phone */
+        word-break: break-all;
+        line-height: 1.5;
+        /* 🔧 CHANGE: Display as block for better mobile layout */
+        display: block;
+        margin: 0.5rem 0;
+      }
+
+      /* 🔧 MOBILE: Copy button - stack below */
+      .copy-btn {
+        display: block;
+        margin: 10px auto 0;
+        padding: 8px 20px;
+        font-size: 0.85rem;
+      }
+
+      /* 🔧 MOBILE: Success message adjustment */
+      .copy-success {
+        font-size: 0.85rem;
+        padding: 6px 12px;
+        top: -35px;
+      }
+
+      /* 🔧 MOBILE: Adjust "With Love" popup */
+      .site-title:hover::after {
+        top: 60px;
+        font-size: 0.75rem;
+        padding: 4px 10px;
+      }
+
+      /* 🔧 MOBILE: Back to top button */
+      .back-to-top {
+        width: 45px;
+        height: 45px;
+        bottom: 70px; /* Above bottom nav */
+        right: 15px;
+        font-size: 1.3rem;
+      }
+
+      /* 🔧 MOBILE: Footer */
+      footer {
+        padding: 1rem 3%;
+        font-size: 0.85rem;
+        margin-top: 2rem;
+        margin-bottom: 0;
+        /* 🔧 FIX: Word break for email/links */
+        word-break: break-all;
+      }
+
+      footer p {
+        line-height: 1.4;
+      }
+
+      .social-links a {
+        font-size: 1rem;
+        margin: 0.3rem 3px;
+      }
+    }
+
+    /* 🔧 TABLET: Optimize layout */
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .container {
+        max-width: 90%;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- ✅ HEADER / NAV -->
+  <header>
+    <a href="index.html" class="site-title">Nanoscience Portal</a>
+    
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav id="nav">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="overview.html">Overview</a></li>
+        <li><a href="updates.html">Updates</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="instruments.html">Tools</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="container">
+
+    <h1>📩 Get In Touch</h1>
+
+    <div class="contact-section">
+
+      <!-- ⚠️ EDIT ZONE: Update contact info below -->
+
+      <div class="contact-method">
+        <div class="copy-success" id="email-copied">✓ Email copied!</div>
+        
+        <span class="icon">✉️</span>
+        <h2>Email</h2>
+        <p class="contact-description">For general inquiries, feedback, or suggestions.</p>
+        <p>
+          <a href="mailto:moomindar4325@gmail.com">moomindar4325@gmail.com</a>
+        </p>
+        <button class="copy-btn" onclick="copyToClipboard('moomindar4325@gmail.com', 'email-copied')" aria-label="Copy email address">
+          📋 Copy Email
+        </button>
+      </div>
+
+      <div class="contact-method">
+        <div class="copy-success" id="phone-copied">✓ Phone copied!</div>
+        
+        <span class="icon">📱</span>
+        <h2>Phone</h2>
+        <p class="contact-description">Call us during business hours (GMT+0).</p>
+        <p>
+          <a href="tel:+916006788242">+91 6006 788 242</a>
+        </p>
+        <button class="copy-btn" onclick="copyToClipboard('+916006788242', 'phone-copied')" aria-label="Copy phone number">
+          📋 Copy Phone
+        </button>
+      </div>
+
+      <div class="contact-method">
+        <span class="icon">📸</span>
+        <h2>Instagram</h2>
+        <p class="contact-description">Follow for visual updates, nano-art, and announcements.</p>
+        <p>
+          <a href="https://www.instagram.com/madyfication/" 
+             target="_blank" 
+             rel="noopener noreferrer">@madyfication</a>
+        </p>
+      </div>
+
+      <!-- >>> END OF EDIT ZONE <<< -->
+
+    </div>
+
+  </div>
+
+  <!-- Back to Top Button -->
+  <div class="back-to-top" id="back-to-top">
+    ↑
+  </div>
+
+  <!-- ✅ FOOTER -->
+  <footer>
+    <p>© 2025 Nanoscience Knowledge Portal</p>
+    <div class="social-links">
+      <a href="https://www.instagram.com/madyfication/" 
+         target="_blank" 
+         rel="noopener noreferrer" 
+         title="Follow us on Instagram">📷 Instagram</a>
+    </div>
+    <p>Zooming into tomorrow, atom by atom.</p>
+  </footer>
+
+  <script>
+    // ========================================
+    // 🔧 HAMBURGER MENU
+    // ========================================
+    const hamburger = document.getElementById('hamburger');
+    const nav = document.getElementById('nav');
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      nav.classList.toggle('active');
+    });
+
+    document.querySelectorAll('nav a').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('active');
+        nav.classList.remove('active');
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!nav.contains(e.target) && !hamburger.contains(e.target)) {
+        hamburger.classList.remove('active');
+        nav.classList.remove('active');
+      }
+    });
+
+
+    // ========================================
+    // 🔧 COPY TO CLIPBOARD FUNCTIONALITY
+    // ========================================
+    function copyToClipboard(text, elementId) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          showCopySuccess(elementId);
+        }).catch(err => {
+          fallbackCopy(text, elementId);
+        });
+      } else {
+        fallbackCopy(text, elementId);
+      }
+    }
+
+    function fallbackCopy(text, elementId) {
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-999999px';
+      document.body.appendChild(textArea);
+      textArea.select();
+      
+      try {
+        document.execCommand('copy');
+        showCopySuccess(elementId);
+      } catch (err) {
+        console.error('Failed to copy:', err);
+        alert('Failed to copy. Please copy manually.');
+      }
+      
+      document.body.removeChild(textArea);
+    }
+
+    function showCopySuccess(elementId) {
+      const message = document.getElementById(elementId);
+      message.classList.add('show');
+      
+      setTimeout(() => {
+        message.classList.remove('show');
+      }, 2000);
+    }
+
+
+    // ========================================
+    // 🔧 BACK TO TOP BUTTON
+    // ========================================
+    const backToTop = document.getElementById('back-to-top');
+
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 300) {
+        backToTop.classList.add('active');
+      } else {
+        backToTop.classList.remove('active');
+      }
+    });
+
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+
+
+    // ========================================
+    // 🔧 FOCUS TRAP
+    // ========================================
+    const focusableElements = nav.querySelectorAll('a');
+    const firstFocusable = focusableElements[0];
+    const lastFocusable = focusableElements[focusableElements.length - 1];
+
+    document.addEventListener('keydown', function(e) {
+      if (!nav.classList.contains('active')) return;
+
+      if (e.key === 'Tab') {
+        if (e.shiftKey) {
+          if (document.activeElement === firstFocusable) {
+            e.preventDefault();
+            lastFocusable.focus();
+          }
+        } else {
+          if (document.activeElement === lastFocusable) {
+            e.preventDefault();
+            firstFocusable.focus();
+          }
+        }
+      }
+    });
+
+
+    // ========================================
+    // 🔧 SMOOTH SCROLL
+    // ========================================
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        const href = this.getAttribute('href');
+        if (href !== '#' && document.querySelector(href)) {
+          e.preventDefault();
+          document.querySelector(href).scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+          
+          hamburger.classList.remove('active');
+          nav.classList.remove('active');
+        }
+      });
+    });
+
+
+    // ========================================
+    // 🔧 SCROLL ANIMATION TRIGGER
+    // ========================================
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver(function(entries) {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateX(0)';
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.contact-method').forEach(item => {
+      observer.observe(item);
+    });
+
+  </script>
+
+</body>
+</html>

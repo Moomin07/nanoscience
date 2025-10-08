@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nanoscience Knowledge Portal</title>
+  <style>
+    /* ✅ RESET & BASE */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: #61e5ff;
+      background: linear-gradient(310deg, rgba(97, 229, 255, 1) 0%, rgba(2, 2, 61, 1) 50%, rgba(92, 228, 255, 1) 100%);
+    }
+
+    /* ✅ DESKTOP HEADER / NAVIGATION */
+    header {
+      background: #2c3e50;
+      padding: 1rem 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .site-title {
+      color: white;
+      font-size: 1.5rem;
+      font-weight: 600;
+      text-decoration: none;
+      /* 🔧 CHANGE: Prevent text wrapping */
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+    }
+
+    nav a {
+      color: #ecf0f1;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.5rem 0.8rem;
+      border-radius: 4px;
+      transition: background 0.3s;
+    }
+
+    nav a:hover {
+      background: #34495e;
+    }
+
+    .hamburger {
+      display: none;
+    }
+
+    /* ✅ HERO BANNER */
+    .hero {
+      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('images/hero/hero-nanoscale-banner.jpg') no-repeat center center/cover;
+      height: 200px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+      padding: 0 20px;
+      animation: fadeIn 1s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .hero h1 {
+      font-size: 2.8rem;
+      margin-bottom: 0.5rem;
+      animation: slideUp 0.8s ease-out;
+    }
+
+    .hero p {
+      font-size: 1.3rem;
+      max-width: 700px;
+      animation: slideUp 0.8s ease-out 0.2s backwards;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ✅ SEARCH BAR */
+    .search-section {
+      text-align: center;
+      padding: 2rem 5%;
+      box-shadow: 0 -70px 70px rgba(0,0,0,0.7);
+    }
+
+    .search-bar {
+      width: 100%;
+      max-width: 600px;
+      padding: 12px 20px;
+      font-size: 1rem;
+      border: 2px solid #ddd;
+      border-radius: 50px;
+      outline: none;
+      box-shadow: 0 3px 5px rgba(0,0,0,0.5);
+      transition: transform 0.2s, border-color 0.3s;
+    }
+
+    .search-bar:hover {
+      transform: translateY(-4px);
+      box-shadow: 7px 5px 12px rgba(0, 0, 0, 0.5);
+    }
+
+    .search-bar:focus {
+      border-color: #3498db;
+      box-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
+    }
+
+    /* Search results */
+    .search-results {
+      max-width: 600px;
+      margin: 1rem auto;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      max-height: 400px;
+      overflow-y: auto;
+      display: none;
+    }
+
+    .search-results.active {
+      display: block;
+    }
+
+    .search-result-item {
+      padding: 1rem;
+      border-bottom: 1px solid #eee;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .search-result-item:hover {
+      background: #f8f9fa;
+    }
+
+    .result-title {
+      color: #2c3e50;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+    }
+
+    .result-description {
+      color: #7f8c8d;
+      font-size: 0.9rem;
+    }
+
+    /* ✅ QUICK ACCESS PANEL - DESKTOP */
+    .quick-access {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 2rem 5%;
+    }
+
+    .quick-card {
+      background: #6d78be36;
+      padding: 1.5rem;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+      opacity: 0.8;
+      transition: transform 0.3s, opacity 0.2s;
+      animation: fadeInUp 0.6s ease-out backwards;
+    }
+
+    .quick-card:nth-child(1) { animation-delay: 0.1s; }
+    .quick-card:nth-child(2) { animation-delay: 0.2s; }
+    .quick-card:nth-child(3) { animation-delay: 0.3s; }
+    .quick-card:nth-child(4) { animation-delay: 0.4s; }
+    .quick-card:nth-child(5) { animation-delay: 0.5s; }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .quick-card:hover {
+      transform: translateY(-18px);
+      box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+      opacity: 1;
+    }
+
+    .quick-card h3 {
+      margin: 1rem 0 0.5rem;
+      color: #e5e5e5;
+    }
+
+    .card-description {
+      color: #f3fab5da;
+      font-size: 0.95rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .quick-card a {
+      display: block;
+      color: #6b6bfa;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .quick-card a:hover {
+      color: #ffaf02;
+    }
+
+    /* ✅ UPDATES TICKER */
+    .ticker-container {
+      overflow: hidden;
+      white-space: nowrap;
+      position: relative;
+    }
+
+    .ticker {
+      display: inline-block;
+      animation: scroll-left 30s linear infinite;
+    }
+
+    .ticker:hover {
+      animation-play-state: paused;
+    }
+
+    @keyframes scroll-left {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+
+    .ticker span {
+      display: inline-block;
+      padding: 0 30px;
+      font-weight: 500;
+      color: #bbbbbb;
+    }
+
+    .ticker a {
+      color: #dfee12;
+      text-decoration: underline;
+      transition: color 0.2s;
+    }
+
+    .ticker a:hover {
+      color: #ff6b00;
+    }
+
+    /* ✅ SECTION PREVIEWS */
+    .section-previews {
+      padding: 3rem 5%;
+    }
+
+    .preview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 30px;
+    }
+
+    .preview-card {
+      background: #6d78be36;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 3px 15px rgba(0,0,0,0.3);
+      transition: transform 0.3s, box-shadow 0.3s;
+      animation: fadeInUp 0.6s ease-out backwards;
+    }
+
+    .preview-card:nth-child(1) { animation-delay: 0.2s; }
+    .preview-card:nth-child(2) { animation-delay: 0.3s; }
+    .preview-card:nth-child(3) { animation-delay: 0.4s; }
+    .preview-card:nth-child(4) { animation-delay: 0.5s; }
+
+    .preview-card:hover {
+      transform: translateY(-7px);
+      box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .preview-img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      transition: transform 0.3s;
+    }
+
+    .preview-card:hover .preview-img {
+      transform: scale(1.05);
+    }
+
+    .preview-content {
+      padding: 1.5rem;
+    }
+
+    .preview-content h3 {
+      color: #E5E5E5;
+      margin-bottom: 0.5rem;
+    }
+
+    .preview-content p {
+      color: #c7fff5cc;
+      margin-bottom: 1rem;
+    }
+
+    .see-more {
+      display: inline-block;
+      color: #6b6bff;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.2s, transform 0.2s;
+    }
+
+    .see-more:hover {
+      color: #ff9900;
+      transform: translateX(5px);
+    }
+
+    /* ✅ FOOTER */
+    footer {
+      background: linear-gradient(136deg,rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 38%, rgba(0, 212, 255, 1) 100%);
+      color: white;
+      text-align: center;
+      padding: 0.1rem 5%;
+      margin-top: 3rem;
+      box-shadow: 5px -10px 10px rgba(0, 0, 0, 0.5);
+      /* 🔧 CHANGE: Fix text wrapping */
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    footer p {
+      margin: 0.2rem 0;
+    }
+
+    .social-links a {
+      color: white;
+      margin: 0 4px;
+      text-decoration: none;
+      transition: transform 0.2s, color 0.2s;
+      display: inline-block;
+      /* 🔧 CHANGE: Prevent breaking */
+      word-break: keep-all;
+    }
+
+    .social-links a:hover {
+      transform: scale(1.2);
+      color: #3498db;
+    }
+
+    /* 🔧 CHANGE: MOBILE-SPECIFIC STYLES - COMPLETELY DIFFERENT LAYOUT */
+    @media (max-width: 768px) {
+      
+      /* 🔧 MOBILE: Compact Header */
+      header {
+        padding: 0.8rem 3%;
+        flex-wrap: wrap;
+      }
+
+      .site-title {
+        font-size: 0.95rem; /* Much smaller on mobile */
+        max-width: 60%;
+      }
+
+      /* 🔧 MOBILE: Hamburger replaces desktop nav */
+      .hamburger {
+        display: flex;
+        flex-direction: column;
+        cursor: pointer;
+        gap: 4px;
+        background: none;
+        border: none;
+        padding: 5px;
+        z-index: 101;
+      }
+
+      .hamburger span {
+        width: 25px;
+        height: 3px;
+        background: white;
+        border-radius: 3px;
+        transition: all 0.3s ease;
+      }
+
+      .hamburger.active span:nth-child(1) {
+        transform: rotate(45deg) translate(7px, 7px);
+      }
+
+      .hamburger.active span:nth-child(2) {
+        opacity: 0;
+      }
+
+      .hamburger.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(6px, -6px);
+      }
+
+      /* 🔧 MOBILE: Bottom Navigation Bar */
+      nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: #2c3e50;
+        transform: translateY(100%);
+        transition: transform 0.3s ease;
+        box-shadow: 0 -3px 15px rgba(0,0,0,0.4);
+        padding: 0;
+        z-index: 99;
+      }
+
+      nav.active {
+        transform: translateY(0);
+      }
+
+      nav ul {
+        flex-direction: row;
+        justify-content: space-around;
+        gap: 0;
+        padding: 0.5rem 0;
+      }
+
+      nav ul li {
+        flex: 1;
+        text-align: center;
+      }
+
+      nav a {
+        display: block;
+        padding: 0.8rem 0.3rem;
+        font-size: 0.75rem;
+        border-radius: 0;
+      }
+
+      /* 🔧 MOBILE: Compact Hero */
+      .hero {
+        height: 150px;
+        padding: 0 10px;
+      }
+
+      .hero h1 {
+        font-size: 1.3rem;
+        line-height: 1.3;
+      }
+
+      .hero p {
+        font-size: 0.85rem;
+        line-height: 1.4;
+      }
+
+      /* 🔧 MOBILE: Compact Search */
+      .search-section {
+        padding: 1.5rem 3%;
+      }
+
+      .search-bar {
+        font-size: 0.9rem;
+        padding: 10px 15px;
+        /* 🔧 FIX: Prevent text overflow */
+        width: 100%;
+        max-width: 100%;
+      }
+
+      /* 🔧 MOBILE: 2-COLUMN GRID for Quick Access (not single column!) */
+      .quick-access {
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* TWO columns on mobile */
+        gap: 10px;
+        padding: 1.5rem 3%;
+      }
+
+      .quick-card {
+        padding: 1rem 0.5rem;
+        min-height: 120px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .quick-card h3 {
+        font-size: 0.95rem;
+        margin: 0.5rem 0 0.3rem;
+      }
+
+      .card-description {
+        font-size: 0.75rem;
+        line-height: 1.3;
+        margin-bottom: 0.5rem;
+        /* 🔧 FIX: Better text wrapping */
+        word-break: break-word;
+        hyphens: auto;
+      }
+
+      .quick-card a {
+        font-size: 0.85rem;
+      }
+
+      /* 🔧 MOBILE: Ticker becomes static list */
+      .ticker-container {
+        padding: 1rem 3%;
+      }
+
+      .ticker {
+        animation: none;
+        display: block;
+        white-space: normal;
+      }
+
+      .ticker span {
+        display: block;
+        padding: 8px 0;
+        font-size: 0.85rem;
+        border-bottom: 1px solid rgba(255,255,255,0.2);
+      }
+
+      .ticker span:last-child {
+        border-bottom: none;
+      }
+
+      /* 🔧 MOBILE: 2-COLUMN Preview Grid */
+      .section-previews {
+        padding: 2rem 3%;
+      }
+
+      .section-previews h2 {
+        font-size: 1.3rem;
+        margin-bottom: 1rem;
+      }
+
+      .preview-grid {
+        grid-template-columns: 1fr 1fr; /* TWO columns */
+        gap: 10px;
+      }
+
+      .preview-img {
+        height: 100px; /* Shorter images */
+      }
+
+      .preview-content {
+        padding: 0.8rem;
+      }
+
+      .preview-content h3 {
+        font-size: 0.9rem;
+        margin-bottom: 0.3rem;
+      }
+
+      .preview-content p {
+        font-size: 0.75rem;
+        line-height: 1.3;
+        margin-bottom: 0.5rem;
+        /* 🔧 FIX: Better text handling */
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      .see-more {
+        font-size: 0.8rem;
+      }
+
+      /* 🔧 MOBILE: Compact Footer */
+      footer {
+        padding: 1rem 3%;
+        font-size: 0.85rem;
+        /* 🔧 FIX: Email overflow */
+        word-break: break-all;
+      }
+
+      footer p {
+        line-height: 1.4;
+      }
+
+      .social-links a {
+        font-size: 1rem;
+        display: inline-block;
+        margin: 0.3rem 3px;
+      }
+    }
+
+    /* 🔧 TABLET: 3-column layout */
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .quick-access {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .preview-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- ✅ HEADER / NAV -->
+  <header>
+    <a href="index.html" class="site-title">Nanoscience Portal</a>
+    
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav id="nav">
+      <ul>
+        <li><a href="overview.html">Overview</a></li>
+        <li><a href="updates.html">Updates</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="instruments.html">Tools</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ✅ HERO BANNER -->
+  <section class="hero">
+    <h1>Exploring the Science of the Very Small</h1>
+    <p>One-stop hub for students, researchers, and enthusiasts</p>
+  </section>
+
+  <!-- ✅ SEARCH BAR -->
+  <section class="search-section">
+    <input 
+      type="text" 
+      id="search-bar"
+      class="search-bar" 
+      placeholder="Search: graphene, AFM, drug delivery..."
+      aria-label="Search nanoscience topics">
+    
+    <div class="search-results" id="search-results"></div>
+  </section>
+
+  <!-- ✅ QUICK ACCESS PANEL -->
+  <section class="quick-access">
+    <div class="quick-card">
+      <h3>Overview</h3>
+      <p class="card-description">Knowledge tree of nanoscience fields</p>
+      <a href="overview.html">Explore →</a>
+    </div>
+    <div class="quick-card">
+      <h3>Updates</h3>
+      <p class="card-description">Latest tech breakthroughs</p>
+      <a href="updates.html">See Updates →</a>
+    </div>
+    <div class="quick-card">
+      <h3>Gallery</h3>
+      <p class="card-description">Simulations & images</p>
+      <a href="gallery.html">Browse →</a>
+    </div>
+    <div class="quick-card">
+      <h3>Instruments</h3>
+      <p class="card-description">Analysis tools</p>
+      <a href="instruments.html">Learn →</a>
+    </div>
+    <div class="quick-card">
+      <h3>Contact</h3>
+      <p class="card-description">Get in touch</p>
+      <a href="contact.html">Contact →</a>
+    </div>
+  </section>
+
+  <!-- ✅ UPDATES TICKER -->
+  <div class="ticker-container">
+    <div class="ticker">
+      <span>🔬 <a href="updates.html#tech1">Graphene sensor detects single molecules</a> (May 10)</span>
+      <span>🚀 <a href="updates.html#news1">NASA funds nanobot swarms</a> (May 8)</span>
+      <span>📸 <a href="instruments.html#sem">New SEM imaging technique</a> (May 5)</span>
+    </div>
+  </div>
+
+  <!-- ✅ SECTION PREVIEWS -->
+  <section class="section-previews">
+    <h2 style="text-align: center; margin-bottom: 2rem; color: #fafbfc;">Explore Sections</h2>
+    <div class="preview-grid">
+
+      <div class="preview-card">
+        <img 
+          src="images/overview/branch-map-thumb.jpg" 
+          alt="Nanoscience branches map" 
+          class="preview-img"
+          loading="lazy">
+        <div class="preview-content">
+          <h3>Overview</h3>
+          <p>Explore nanomaterials, medicine, electronics, and energy applications</p>
+          <a href="overview.html" class="see-more">More →</a>
+        </div>
+      </div>
+
+      <div class="preview-card">
+        <img 
+          src="images/updates/tech-news-thumb.jpg" 
+          alt="Recent nanotech updates" 
+          class="preview-img"
+          loading="lazy">
+        <div class="preview-content">
+          <h3>Updates</h3>
+          <p>Tech breakthroughs and science news</p>
+          <a href="updates.html" class="see-more">More →</a>
+        </div>
+      </div>
+
+      <div class="preview-card">
+        <img 
+          src="images/gallery/simulation-thumb.jpg" 
+          alt="Nano simulations & videos" 
+          class="preview-img"
+          loading="lazy">
+        <div class="preview-content">
+          <h3>Gallery</h3>
+          <p>Interactive simulations and images</p>
+          <a href="gallery.html" class="see-more">More →</a>
+        </div>
+      </div>
+
+      <div class="preview-card">
+        <img 
+          src="images/instruments/sem-tem-thumb.jpg" 
+          alt="Nanotech instruments" 
+          class="preview-img"
+          loading="lazy">
+        <div class="preview-content">
+          <h3>Instruments</h3>
+          <p>SEM, TEM, AFM, XRD, Raman</p>
+          <a href="instruments.html" class="see-more">More →</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ✅ FOOTER -->
+  <footer>
+    <p>© 2025 Nanoscience Knowledge Portal</p>
+    <div class="social-links">
+      <a href="https://www.instagram.com/madyfication/" 
+         target="_blank" 
+         rel="noopener noreferrer" 
+         title="Instagram">📷 Instagram</a>
+    </div>
+    <p>Zooming into tomorrow, atom by atom</p>
+  </footer>
+
+  <script>
+    // Hamburger Menu
+    const hamburger = document.getElementById('hamburger');
+    const nav = document.getElementById('nav');
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      nav.classList.toggle('active');
+    });
+
+    // Close menu when clicking a link
+    document.querySelectorAll('nav a').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('active');
+        nav.classList.remove('active');
+      });
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!nav.contains(e.target) && !hamburger.contains(e.target)) {
+        hamburger.classList.remove('active');
+        nav.classList.remove('active');
+      }
+    });
+
+    // Search Functionality
+    const searchDatabase = [
+      { title: "Graphene Overview", description: "2D carbon material", url: "overview.html#nanomaterials-examples" },
+      { title: "Quantum Dots", description: "Semiconductor nanocrystals", url: "overview.html#nanoelectronics-examples" },
+      { title: "Drug Delivery", description: "Targeted therapeutics", url: "overview.html#nanomedicine-examples" },
+      { title: "AFM", description: "Atomic Force Microscopy", url: "instruments.html#afm" },
+      { title: "SEM", description: "Scanning Electron Microscope", url: "instruments.html#sem" },
+      { title: "TEM", description: "Transmission Electron Microscope", url: "instruments.html#tem" },
+      { title: "Gallery - Simulations", description: "Interactive models", url: "gallery.html#simulations" },
+      { title: "Gallery - Videos", description: "Educational content", url: "gallery.html#videos" },
+      { title: "Recent Updates", description: "Latest breakthroughs", url: "updates.html" },
+      { title: "Carbon Nanotubes", description: "Cylindrical carbon structures", url: "overview.html#nanomaterials-examples" }
+    ];
+
+    const searchBar = document.getElementById('search-bar');
+    const searchResults = document.getElementById('search-results');
+
+    searchBar.addEventListener('input', function(e) {
+      const query = e.target.value.toLowerCase().trim();
+      
+      if (query === '') {
+        searchResults.classList.remove('active');
+        searchResults.innerHTML = '';
+        return;
+      }
+
+      const matches = searchDatabase.filter(item => 
+        item.title.toLowerCase().includes(query) || 
+        item.description.toLowerCase().includes(query)
+      );
+
+      if (matches.length > 0) {
+        searchResults.innerHTML = matches.map(item => `
+          <div class="search-result-item" onclick="window.location.href='${item.url}'">
+            <div class="result-title">${item.title}</div>
+            <div class="result-description">${item.description}</div>
+          </div>
+        `).join('');
+        searchResults.classList.add('active');
+      } else {
+        searchResults.innerHTML = `
+          <div class="search-result-item">
+            <div class="result-title">No results</div>
+            <div class="result-description">Try: graphene, AFM, quantum dots</div>
+          </div>
+        `;
+        searchResults.classList.add('active');
+      }
+    });
+
+    // Close search results when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!searchBar.contains(e.target) && !searchResults.contains(e.target)) {
+        searchResults.classList.remove('active');
+      }
+    });
+
+    // Escape key closes search
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        searchResults.classList.remove('active');
+      }
+    });
+  </script>
+
+</body>
+</html>
