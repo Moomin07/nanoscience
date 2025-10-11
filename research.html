@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Research Papers — Nanoscience Knowledge Portal</title>
+  <style>
+    /* ✅ RESET & BASE */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #ffffff;
+      background: #61e5ff;
+      background: linear-gradient(280deg, rgba(97, 229, 255, 1) 0%, rgba(2, 2, 61, 1) 50%, rgba(92, 228, 255, 1) 100%);
+    }
+
+    /* ✅ HEADER / NAVIGATION */
+    header {
+      background: #2c3e50;
+      padding: 1rem 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .site-title {
+      color: white;
+      font-size: 1.5rem;
+      font-weight: 600;
+      text-decoration: none;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+    }
+
+    nav a {
+      color: #ecf0f1;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.5rem 0.8rem;
+      border-radius: 4px;
+      transition: background 0.3s;
+    }
+
+    nav a:hover {
+      background: #34495e;
+    }
+
+    .hamburger {
+      display: none;
+    }
+
+    /* ✅ MAIN CONTENT */
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #6f99c4;
+      margin: 2rem 0 1rem;
+      font-size: 2.2rem;
+      animation: fadeInDown 0.8s ease-out;
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* 📚 DIVISION SECTIONS */
+    .division-section {
+      margin: 3rem 0;
+      padding: 2rem;
+      background: rgba(46, 36, 87, 0.363);
+      border-radius: 10px;
+      box-shadow: 2px 3px 10px rgba(0,0,0,0.3);
+      scroll-margin-top: 100px; /* Space for sticky header */
+      transition: all 0.3s;
+    }
+
+    /* 🔥 HIGHLIGHT EFFECT when coming from Overview page */
+    .division-section.highlight {
+      animation: highlightFade 2s ease-out;
+    }
+
+    @keyframes highlightFade {
+      0% {
+        background: rgba(52, 152, 219, 0.4);
+        box-shadow: 0 0 30px rgba(52, 152, 219, 0.6);
+      }
+      100% {
+        background: rgba(46, 36, 87, 0.363);
+        box-shadow: 2px 3px 10px rgba(0,0,0,0.3);
+      }
+    }
+
+    .division-section h2 {
+      color: #36aaf8;
+      border-bottom: 3px solid #3498db;
+      padding-bottom: 0.5rem;
+      margin-bottom: 1.5rem;
+      font-size: 1.8rem;
+    }
+
+    /* 📄 PAPERS LIST - Super Simple Structure */
+    .papers-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .paper-item {
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transition: background 0.2s;
+      animation: fadeInUp 0.5s ease-out backwards;
+    }
+
+    /* Stagger animation */
+    .paper-item:nth-child(1) { animation-delay: 0.1s; }
+    .paper-item:nth-child(2) { animation-delay: 0.2s; }
+    .paper-item:nth-child(3) { animation-delay: 0.3s; }
+    .paper-item:nth-child(4) { animation-delay: 0.4s; }
+    .paper-item:nth-child(5) { animation-delay: 0.5s; }
+    .paper-item:nth-child(6) { animation-delay: 0.6s; }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .paper-item:hover {
+      background: rgba(255, 255, 255, 0.05);
+      padding-left: 1rem;
+    }
+
+    .paper-item:last-child {
+      border-bottom: none;
+    }
+
+    /* Paper number */
+    .paper-number {
+      color: #2cff48;
+      font-weight: 700;
+      font-size: 0.9rem;
+      min-width: 30px;
+    }
+
+    /* Paper title link */
+    .paper-title {
+      flex: 1;
+      color: #ecf0f1;
+      text-decoration: none;
+      font-size: 1.05rem;
+      transition: color 0.2s;
+      line-height: 1.5;
+    }
+
+    .paper-title:hover {
+      color: #3498db;
+      text-decoration: underline;
+    }
+
+    /* DOI link */
+    .doi-link {
+      color: #3498db;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.85rem;
+      padding: 0.4rem 1rem;
+      border: 2px solid #3498db;
+      border-radius: 20px;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .doi-link:hover {
+      background: #3498db;
+      color: white;
+      transform: scale(1.05);
+    }
+
+    /* 🔼 BACK TO TOP */
+    .back-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #3498db;
+      color: white;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+      transition: all 0.3s;
+      z-index: 99;
+      font-size: 1.5rem;
+    }
+
+    .back-to-top.active {
+      display: flex;
+    }
+
+    .back-to-top:hover {
+      background: #2980b9;
+      transform: translateY(-5px);
+    }
+
+    /* ✅ FOOTER */
+    footer {
+      background: linear-gradient(136deg,rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 38%, rgba(0, 212, 255, 1) 100%);
+      box-shadow: 5px -10px 10px rgba(0, 0, 0, 0.5);
+      color: white;
+      text-align: center;
+      padding: 0.5rem 5%;
+      margin-top: 3rem;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    footer p {
+      margin: 0.2rem 0;
+    }
+
+    .social-links a {
+      color: white;
+      margin: 0 4px;
+      text-decoration: none;
+      transition: transform 0.2s, color 0.2s;
+      display: inline-block;
+      word-break: keep-all;
+    }
+
+    .social-links a:hover {
+      transform: scale(1.2);
+      color: #3498db;
+    }
+
+    /* 🔧 MOBILE RESPONSIVE */
+    @media (max-width: 768px) {
+      
+      .hamburger {
+        display: flex;
+        flex-direction: column;
+        cursor: pointer;
+        gap: 4px;
+        background: none;
+        border: none;
+        padding: 5px;
+        z-index: 101;
+      }
+
+      .hamburger span {
+        width: 25px;
+        height: 3px;
+        background: white;
+        border-radius: 3px;
+        transition: all 0.3s ease;
+      }
+
+      .hamburger.active span:nth-child(1) {
+        transform: rotate(45deg) translate(7px, 7px);
+      }
+
+      .hamburger.active span:nth-child(2) {
+        opacity: 0;
+      }
+
+      .hamburger.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(6px, -6px);
+      }
+
+      nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: #2c3e50;
+        transform: translateY(100%);
+        transition: transform 0.3s ease;
+        box-shadow: 0 -3px 15px rgba(0,0,0,0.4);
+        padding: 0;
+        z-index: 99;
+      }
+
+      nav.active {
+        transform: translateY(0);
+      }
+
+      nav ul {
+        flex-direction: row;
+        justify-content: space-around;
+        gap: 0;
+        padding: 0.5rem 0;
+      }
+
+      nav ul li {
+        flex: 1;
+        text-align: center;
+      }
+
+      nav a {
+        display: block;
+        padding: 0.6rem 0.2rem;
+        font-size: 0.7rem;
+        border-radius: 0;
+      }
+
+      header {
+        padding: 0.8rem 3%;
+      }
+
+      .site-title {
+        font-size: 0.9rem;
+        max-width: 60%;
+      }
+
+      .container {
+        padding: 0 3%;
+      }
+
+      h1 {
+        font-size: 1.4rem;
+      }
+
+      .division-section {
+        padding: 1.2rem;
+        margin: 1.5rem 0;
+      }
+
+      .division-section h2 {
+        font-size: 1.3rem;
+      }
+
+      /* Mobile: Stack paper items vertically */
+      .paper-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+        padding: 1rem 0;
+      }
+
+      .paper-item:hover {
+        padding-left: 0;
+      }
+
+      .paper-number {
+        min-width: auto;
+      }
+
+      .paper-title {
+        font-size: 0.95rem;
+        word-break: break-word;
+      }
+
+      .doi-link {
+        align-self: flex-start;
+        font-size: 0.75rem;
+        padding: 0.3rem 0.8rem;
+      }
+
+      .back-to-top {
+        width: 45px;
+        height: 45px;
+        bottom: 70px;
+        right: 15px;
+        font-size: 1.3rem;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- ✅ HEADER / NAV -->
+  <header>
+    <a href="index.html" class="site-title">Nanoscience Portal</a>
+    
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav id="nav">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="overview.html">Overview</a></li>
+        <li><a href="updates.html">Updates</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="instruments.html">Instruments</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="container">
+
+    <h1>📚 Research Papers</h1>
+
+    <!-- ///////////////////////////////////////////////////////// -->
+    <!-- 🧪 DIVISION: GRAPHENE -->
+    <!-- ///////////////////////////////////////////////////////// -->
+    <div class="division-section" id="graphene">
+      <h2>Graphene Research Papers</h2>
+      
+      <ul class="papers-list">
+        
+        <!-- ⚠️ EDIT ZONE: Copy-paste lines to add more papers -->
+        <!-- 
+        TEMPLATE TO COPY:
+        <li class="paper-item">
+          <span class="paper-number">#1</span>
+          <a href="PASTE_PAPER_URL_HERE" target="_blank" rel="noopener noreferrer" class="paper-title">Paste Paper Title Here</a>
+          <a href="PASTE_DOI_URL_HERE" target="_blank" rel="noopener noreferrer" class="doi-link">DOI</a>
+        </li>
+        -->
+
+        <li class="paper-item">
+          <span class="paper-number">#1</span>
+          <a href="#" target="_blank" rel="noopener noreferrer" class="paper-title">Scalable Production of High-Quality Graphene via Chemical Vapor Deposition</a>
+          <a href="https://doi.org/10.1038/s41565-024-00000" target="_blank" rel="noopener noreferrer" class="doi-link">DOI</a>
+        </li>
+
+        <li class="paper-item">
+          <span class="paper-number">#2</span>
+          <a href="#" target="_blank" rel="noopener noreferrer" class="paper-title">Graphene-Based Transparent Conductive Films for Next-Generation Electronics</a>
+          <a href="https://doi.org/10.1021/acs.nanolett.2024.00000" target="_blank" rel="noopener noreferrer" class="doi-link">DOI</a>
+        </li>
+
+        <li class="paper-item">
+          <span class="paper-number">#3</span>
+          <a href="#" target="_blank" rel="noopener noreferrer" class="paper-title">Mechanical Properties of Defect-Free Single-Layer Graphene Sheets</a>
+          <a href="https://doi.org/10.1126/science.2024.00000" target="_blank" rel="noopener noreferrer" class="doi-link">DOI</a>
+        </li>
+
+        <!-- >>> END OF EDIT ZONE FOR GRAPHENE <<< -->
+
+      </ul>
+    </div>
+
+    <!-- ///////////////////////////////////////////////////////// -->
+    <!-- 🧪 DIVISION: CARBON NANOTUBES (CNT) -->
+    <!-- ///////////////////////////////////////////////////////// -->
+    <div class="division-section" id="carbon-nanotubes">
+      <h2>Carbon Nanotubes (CNT) Research Papers</h2>
+      
+      <ul class="papers-list">
+        
+        <!-- ⚠️ EDIT ZONE: Copy-paste lines to add more papers -->
+
+        <li class="paper-item">
+          <span class="paper-number">#1</span>
+          <a href="#" target="_blank" rel="noopener noreferrer" class="paper-title">High-Performance Carbon Nanotube-Reinforced Composite Materials for Aerospace</a>
+          <a href="https://doi.org/10.1002/adma.2024.00000" target="_blank" rel="noopener noreferrer" class="doi-link">DOI</a>
+        </li>
+
+        <li class="paper-item">
+          <span class="paper-number">#2</span>
+          <a href="#" target="_blank" rel="noopener noreferrer" class="paper-title">Single-Walled Carbon Nanotubes as Drug Delivery Vehicles in Cancer Treatment</a>
+          <a href="https://doi.org/10.1016/j.biomaterials.2024.00000" target="_blank" rel="noopener noreferrer" class="doi-link">DOI</a>
+        </li>
+
+        <li class="paper-item">
+          <span class="paper-number">#3</span>
+          <a href="#" target="_blank" rel="noopener noreferrer" class="paper-title">Electrical Conductivity Enhancement in CNT-Based Transparent Electrodes</a>
+          <a href="https://doi.org/10.1021/nl.2024.00000" target="_blank" rel="noopener noreferrer" class="doi-link">DOI</a>
+        </li>
+
+        <!-- >>> END OF EDIT ZONE FOR CNT <<< -->
+
+      </ul>
+    </div>
+
+    <!-- ///////////////////////////////////////////////////////// -->
+    <!-- 💊 DIVISION: NANOMEDICINE -->
+    <!-- ///////////////////////////////////////////////////////// -->
+    <div class="division-section" id="nanomedicine">
+      <h2>Nanomedicine Research Papers</h2>
+      
+      <ul class="papers-list">
+        
+        <!-- ⚠️ EDIT ZONE: Copy-paste lines to add more papers -->
+
+        <li class="paper-item">
+          <span class="paper-number">#1</span>
+          <a href="#" target="_blank" rel="noopener noreferrer" class="paper-title">Targeted Drug Delivery Using pH-Responsive Nanoparticles in Cancer Therapy</a>
+          <a href="https://doi.org/10.1016/S1470-2045(24)00000-0" target="_blank" rel="noopener noreferrer" class="doi-link">DOI</a>
+        </li>
+
+        <li class="paper-item">
+          <span class="paper-number">#2</span>
+          <a href="#" target="_blank" rel="noopener noreferrer" class="paper-title">Quantum Dots for Early Detection of Alzheimer's Disease Biomarkers</a>
+          <a href="https://doi.org/10.1038/s41591-024-00000" target="_blank" rel="noopener noreferrer" class="doi-link">DOI</a>
+        </li>
+
+        <li class="paper-item">
+          <span class="paper-number">#3</span>
+          <a href="#" target="_blank" rel="noopener noreferrer" class="paper-title">Liposomal Formulations for Enhanced Bioavailability of Chemotherapeutic Agents</a>
+          <a href="https://doi.org/10.1021/jacs.2024.00000" target="_blank" rel="noopener noreferrer" class="doi-link">DOI</a>
+        </li>
+
+        <!-- >>> END OF EDIT ZONE FOR NANOMEDICINE <<< -->
+
+      </ul>
+    </div>
+
+    <!-- ///////////////////////////////////////////////////////// -->
+    <!-- ⚡ DIVISION: NANOELECTRONICS -->
+    <!-- ///////////////////////////////////////////////////////// -->
+    <div class="division-section" id="nanoelectronics">
+      <h2>Nanoelectronics Research Papers</h2>
+      
+      <ul class="papers-list">
+        
+        <!-- ⚠️ EDIT ZONE: Copy-paste lines to add more papers -->
+
+        <li class="paper-item">
+          <span class="paper-number">#1</span>
+          <a href="#" target="_blank" rel="noopener noreferrer" class="paper-title">Room-Temperature Quantum Computing with Silicon Spin Qubits</a>
+          <a href="https://doi.org/10.1126/science.2024.00000" target="_blank" rel="noopener noreferrer" class="doi-link">DOI</a>
+        </li>
+
+        <li class="paper-item">
+          <span class="paper-number">#2</span>
+          <a href="#" target="_blank" rel="noopener noreferrer" class="paper-title">Terahertz Graphene Field-Effect Transistors for 6G Communications</a>
+          <a href="https://doi.org/10.1038/s41928-024-00000" target="_blank" rel="noopener noreferrer" class="doi-link">DOI</a>
+        </li>
+
+        <li class="paper-item">
+          <span class="paper-number">#3</span>
+          <a href="#" target="_blank" rel="noopener noreferrer" class="paper-title">Ultra-Low Power Memristors Based on Transition Metal Oxides</a>
+          <a href="https://doi.org/10.1002/adfm.2024.00000" target="_blank" rel="noopener noreferrer" class="doi-link">DOI</a>
+        </li>
+
+        <!-- >>> END OF EDIT ZONE FOR NANOELECTRONICS <<< -->
+
+      </ul>
+    </div>
+
+    <!-- ///////////////////////////////////////////////////////// -->
+    <!-- 🌍 DIVISION: ENERGY & ENVIRONMENT -->
+    <!-- ///////////////////////////////////////////////////////// -->
+    <div class="division-section" id="energy">
+      <h2>Energy & Environment Research Papers</h2>
+      
+      <ul class="papers-list">
+        
+        <!-- ⚠️ EDIT ZONE: Copy-paste lines to add more papers -->
+
+        <li class="paper-item">
+          <span class="paper-number">#1</span>
+          <a href="#" target="_blank" rel="noopener noreferrer" class="paper-title">Perovskite-Silicon Tandem Solar Cells Exceeding 32% Efficiency</a>
+          <a href="https://doi.org/10.1016/j.xcrp.2024.00000" target="_blank" rel="noopener noreferrer" class="doi-link">DOI</a>
+        </li>
+
+        <li class="paper-item">
+          <span class="paper-number">#2</span>
+          <a href="#" target="_blank" rel="noopener noreferrer" class="paper-title">TiO2 Nanoparticle Photocatalysts for Industrial Wastewater Treatment</a>
+          <a href="https://doi.org/10.1021/acs.est.2024.00000" target="_blank" rel="noopener noreferrer" class="doi-link">DOI</a>
+        </li>
+
+        <li class="paper-item">
+          <span class="paper-number">#3</span>
+          <a href="#" target="_blank" rel="noopener noreferrer" class="paper-title">Nanostructured Lithium-Ion Battery Electrodes with Extended Cycle Life</a>
+          <a href="https://doi.org/10.1038/s41560-024-00000" target="_blank" rel="noopener noreferrer" class="doi-link">DOI</a>
+        </li>
+
+        <!-- >>> END OF EDIT ZONE FOR ENERGY & ENVIRONMENT <<< -->
+
+      </ul>
+    </div>
+
+    <!-- ///////////////////////////////////////////////////////// -->
+    <!-- 🛍️ DIVISION: EVERYDAY APPLICATIONS -->
+    <!-- ///////////////////////////////////////////////////////// -->
+    <div class="division-section" id="everyday">
+      <h2>Everyday Applications Research Papers</h2>
+      
+      <ul class="papers-list">
+        
+        <!-- ⚠️ EDIT ZONE: Copy-paste lines to add more papers -->
+
+        <li class="paper-item">
+          <span class="paper-number">#1</span>
+          <a href="#" target="_blank" rel="noopener noreferrer" class="paper-title">Transparent UV-Blocking Nanocoatings for Consumer Sunscreen Products</a>
+          <a href="https://doi.org/10.1021/acsami.2024.00000" target="_blank" rel="noopener noreferrer" class="doi-link">DOI</a>
+        </li>
+
+        <li class="paper-item">
+          <span class="paper-number">#2</span>
+          <a href="#" target="_blank" rel="noopener noreferrer" class="paper-title">Self-Cleaning Nanostructured Surfaces for Architectural Applications</a>
+          <a href="https://doi.org/10.1002/smll.2024.00000" target="_blank" rel="noopener noreferrer" class="doi-link">DOI</a>
+        </li>
+
+        <li class="paper-item">
+          <span class="paper-number">#3</span>
+          <a href="#" target="_blank" rel="noopener noreferrer" class="paper-title">Antimicrobial Silver Nanoparticles in Food Packaging Materials</a>
+          <a href="https://doi.org/10.1016/j.foodchem.2024.00000" target="_blank" rel="noopener noreferrer" class="doi-link">DOI</a>
+        </li>
+
+        <!-- >>> END OF EDIT ZONE FOR EVERYDAY APPLICATIONS <<< -->
+
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- Back to Top Button -->
+  <div class="back-to-top" id="back-to-top">
+    ↑
+  </div>
+
+  <!-- ✅ FOOTER -->
+  <footer>
+    <p>© 2025 Nanoscience Knowledge Portal</p>
+    <div class="social-links">
+      <a href="https://www.instagram.com/madyfication/" 
+         target="_blank" 
+         rel="noopener noreferrer" 
+         title="Instagram">📷 Instagram</a>
+    </div>
+    <p>Zooming into tomorrow, atom by atom.</p>
+  </footer>
+
+  <script>
+    // ========================================
+    // 🔧 HAMBURGER MENU
+    // ========================================
+    const hamburger = document.getElementById('hamburger');
+    const nav = document.getElementById('nav');
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      nav.classList.toggle('active');
+    });
+
+    document.querySelectorAll('nav a').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('active');
+        nav.classList.remove('active');
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!nav.contains(e.target) && !hamburger.contains(e.target)) {
+        hamburger.classList.remove('active');
+        nav.classList.remove('active');
+      }
+    });
+
+
+    // ========================================
+    // 🔥 SMOOTH SCROLL & HIGHLIGHT ON LOAD
+    // ========================================
+    // Detects if user came from Overview page with anchor (#graphene)
+    window.addEventListener('load', () => {
+      const hash = window.location.hash;
+      if (hash) {
+        const targetSection = document.querySelector(hash);
+        if (targetSection) {
+          // Wait a moment for page to fully load
+          setTimeout(() => {
+            // Smooth scroll to section
+            targetSection.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+            
+            // Add highlight effect
+            targetSection.classList.add('highlight');
+            
+            // Remove highlight after animation completes
+            setTimeout(() => {
+              targetSection.classList.remove('highlight');
+            }, 2000);
+          }, 100);
+        }
+      }
+    });
+
+
+    // ========================================
+    // 🔼 BACK TO TOP BUTTON
+    // ========================================
+    const backToTop = document.getElementById('back-to-top');
+
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 300) {
+        backToTop.classList.add('active');
+      } else {
+        backToTop.classList.remove('active');
+      }
+    });
+
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+
+
+    // ========================================
+    // 🔧 FOCUS TRAP
+    // ========================================
+    const focusableElements = nav.querySelectorAll('a');
+    const firstFocusable = focusableElements[0];
+    const lastFocusable = focusableElements[focusableElements.length - 1];
+
+    document.addEventListener('keydown', function(e) {
+      if (!nav.classList.contains('active')) return;
+
+      if (e.key === 'Tab') {
+        if (e.shiftKey) {
+          if (document.activeElement === firstFocusable) {
+            e.preventDefault();
+            lastFocusable.focus();
+          }
+        } else {
+          if (document.activeElement === lastFocusable) {
+            e.preventDefault();
+            firstFocusable.focus();
+          }
+        }
+      }
+    });
+
+  </script>
+
+</body>
+</html>
